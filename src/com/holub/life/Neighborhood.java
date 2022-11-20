@@ -422,6 +422,10 @@ public final class Neighborhood implements Cell
 	public boolean isAlive()
 	{	return true;
 	}
+	// new code for history path check
+	public boolean isHasPassed()
+	{	return true;
+	}
 
 	public int widthInCells()
 	{	return gridSize * grid[0][0].widthInCells();

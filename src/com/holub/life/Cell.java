@@ -64,6 +64,10 @@ public interface Cell
 	 */
 	boolean isAlive();
 
+	/** Return true if this cell has already been alive.
+	 */
+	boolean isHasPassed();
+
 	/** Return the specified width plus the current cell's width
 	 */
 	int widthInCells();
@@ -142,6 +146,8 @@ public interface Cell
 
 		public Cell		 edge(int r, int c)	{return this;  			  }
 		public boolean	 isAlive()		   	{return false; 			  }
+		// for history path check
+		public boolean   isHasPassed()      {return false;            }
 		public Cell 	 create()	   	   	{return this;			  }
 		public Direction isDisruptiveTo()	{return Direction.NONE;	  }
 		public void 	 clear()		   	{						  }
