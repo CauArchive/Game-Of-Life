@@ -103,10 +103,21 @@ public interface Cell
 		 */
 		void markAsAlive	(Point location);
 
+		/**On creation of the memento, indicate that a cell is
+		 * passed.
+		 */
+		void markAsPassed   (Point location);
+
 		/** On restoration of a cell from a memento, indicate that
 		 *  a cell is alive.
 		 */
 		boolean isAlive	(Point location);
+
+		/**
+		 * On restoration of a cell from a memento, indicte that
+		 * a cell has passed
+		 */
+		boolean hasPassed (Point location);
 	}
 
 	/**  This method is used internally to save or restore the state

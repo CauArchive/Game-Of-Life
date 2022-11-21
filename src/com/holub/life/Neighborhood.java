@@ -484,6 +484,7 @@ public final class Neighborhood implements Cell
 
 	private static class NeighborhoodState implements Cell.Memento
 	{	Collection liveCells = new LinkedList();
+		Collection historyCells = new LinkedList();
 
 		public NeighborhoodState( InputStream in ) throws IOException
 												{ load(in); }
@@ -515,10 +516,17 @@ public final class Neighborhood implements Cell
 		{	liveCells.add( new Point( location ) );
 		}
 
+		public void markAsPassed(Point location)
+		{  historyCells.add( new Point( location));
+		}
+
 		public boolean isAlive(Point location)
 		{	return liveCells.contains(location);
 		}
 
+		public boolean hasPassed(Point location)
+		{   return historyCells.contains(location);
+		}
 		public String toString()
 		{	StringBuffer b = new StringBuffer();
 

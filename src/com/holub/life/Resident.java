@@ -137,6 +137,8 @@ public final class Resident implements Cell
 		}
 		else if( amAlive )  					// store only live cells
 			memento.markAsAlive( upperLeft );
+		else if( hasPassed )
+			memento.markAsPassed( upperLeft );
 
 		return false;
 	}
