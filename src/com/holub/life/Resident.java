@@ -116,9 +116,10 @@ public final class Resident implements Cell
 
 	public void userClicked(Point here, Rectangle surface)
 	{	amAlive = !amAlive;
+		hasPassed = false;
 	}
 
-	public void	   clear()			{amAlive = willBeAlive = false; }
+	public void	   clear()			{amAlive = willBeAlive = hasPassed = false; }
 	public boolean isAlive()		{return amAlive;			    }
 	public Cell    create()			{return new Resident();			}
 	public int 	   widthInCells()	{return 1;}
@@ -137,7 +138,7 @@ public final class Resident implements Cell
 		}
 		else if( amAlive )  					// store only live cells
 			memento.markAsAlive( upperLeft );
-		else if( hasPassed )
+		else if( hasPassed )					// store only marked cells
 			memento.markAsPassed( upperLeft );
 
 		return false;
