@@ -64,10 +64,6 @@ public interface Cell
 	 */
 	boolean isAlive();
 
-	/** Return true if this cell has already been alive.
-	 */
-	boolean isHasPassed();
-
 	/** Return the specified width plus the current cell's width
 	 */
 	int widthInCells();
@@ -103,22 +99,12 @@ public interface Cell
 		 */
 		void markAsAlive	(Point location);
 
-		/**On creation of the memento, indicate that a cell is
-		 * passed.
-		 */
-		void markAsPassed   (Point location);
 
 		/** On restoration of a cell from a memento, indicate that
 		 *  a cell is alive.
 		 */
 		boolean isAlive	(Point location);
-
-		/**
-		 * On restoration of a cell from a memento, indicte that
-		 * a cell has passed
-		 */
-		boolean hasPassed (Point location);
-	}
+			}
 
 	/**  This method is used internally to save or restore the state
 	 *   of a cell from a memento.
@@ -157,8 +143,6 @@ public interface Cell
 
 		public Cell		 edge(int r, int c)	{return this;  			  }
 		public boolean	 isAlive()		   	{return false; 			  }
-		// for history path check
-		public boolean   isHasPassed()      {return false;            }
 		public Cell 	 create()	   	   	{return this;			  }
 		public Direction isDisruptiveTo()	{return Direction.NONE;	  }
 		public void 	 clear()		   	{						  }

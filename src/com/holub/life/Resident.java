@@ -65,18 +65,6 @@ public final class Resident implements Cell
 		if( southeast.isAlive()) ++neighbors;
 		if( southwest.isAlive()) ++neighbors;
 
-		//temporary maybe erase later
-//		int history = 0;
-//
-//		if( north.	  isHasPassed()) ++history;
-//		if( south.	  isHasPassed()) ++history;
-//		if( east. 	  isHasPassed()) ++history;
-//		if( west. 	  isHasPassed()) ++history;
-//		if( northeast.isHasPassed()) ++history;
-//		if( northwest.isHasPassed()) ++history;
-//		if( southeast.isHasPassed()) ++history;
-//		if( southwest.isHasPassed()) ++history;
-
 		willBeAlive = (neighbors==3 || (amAlive && neighbors==2));
 		if(!hasPassed)
 			hasPassed = amAlive;
@@ -144,8 +132,7 @@ public final class Resident implements Cell
 		}
 		else if( amAlive )  					// store only live cells
 			memento.markAsAlive( upperLeft );
-		if( hasPassed )					// store only marked cells
-			memento.markAsPassed( upperLeft );
+
 
 		return false;
 	}
