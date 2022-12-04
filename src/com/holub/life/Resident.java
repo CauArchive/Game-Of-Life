@@ -1,6 +1,8 @@
 package com.holub.life;
 
 import java.awt.*;
+import java.util.Collection;
+import java.util.LinkedList;
 import javax.swing.*;
 import com.holub.ui.Colors;	// Contains constants specifying various
 							// colors not defined in java.awt.Color.
@@ -28,6 +30,7 @@ public final class Resident implements Cell
 	private boolean amAlive 	= false;
 	private boolean willBeAlive	= false;
 	// History 상태 (자리 지나갔는지)
+
 	private boolean hasPassed = false;
 
 	private boolean isStable(){return amAlive == willBeAlive; }
@@ -62,18 +65,21 @@ public final class Resident implements Cell
 		if( southeast.isAlive()) ++neighbors;
 		if( southwest.isAlive()) ++neighbors;
 
-		int history = 0;
-
-		if( north.	  isHasPassed()) ++history;
-		if( south.	  isHasPassed()) ++history;
-		if( east. 	  isHasPassed()) ++history;
-		if( west. 	  isHasPassed()) ++history;
-		if( northeast.isHasPassed()) ++history;
-		if( northwest.isHasPassed()) ++history;
-		if( southeast.isHasPassed()) ++history;
-		if( southwest.isHasPassed()) ++history;
+		//temporary maybe erase later
+//		int history = 0;
+//
+//		if( north.	  isHasPassed()) ++history;
+//		if( south.	  isHasPassed()) ++history;
+//		if( east. 	  isHasPassed()) ++history;
+//		if( west. 	  isHasPassed()) ++history;
+//		if( northeast.isHasPassed()) ++history;
+//		if( northwest.isHasPassed()) ++history;
+//		if( southeast.isHasPassed()) ++history;
+//		if( southwest.isHasPassed()) ++history;
 
 		willBeAlive = (neighbors==3 || (amAlive && neighbors==2));
+		if(!hasPassed)
+			hasPassed = amAlive;
 		return !isStable();
 	}
 
@@ -94,13 +100,14 @@ public final class Resident implements Cell
 
 	public boolean transition()
 	{	boolean changed = isStable();
-		hasPassed = amAlive;
 		amAlive = willBeAlive;
 		return changed;
 	}
 
 	public void redraw(Graphics g, Rectangle here, boolean drawAll)
     {   g = g.create();
+		g.setColor(hasPassed ? HISTORY_COLOR : DEAD_COLOR);
+		g.fillRect(here.x+1, here.y+1, here.width-1, here.height-1);
 		g.setColor(amAlive ? LIVE_COLOR : (hasPassed ? HISTORY_COLOR : DEAD_COLOR) );
 		g.fillRect(here.x+1, here.y+1, here.width-1, here.height-1);
 
@@ -116,7 +123,6 @@ public final class Resident implements Cell
 
 	public void userClicked(Point here, Rectangle surface)
 	{	amAlive = !amAlive;
-		hasPassed = false;
 	}
 
 	public void	   clear()			{amAlive = willBeAlive = hasPassed = false; }
@@ -138,7 +144,7 @@ public final class Resident implements Cell
 		}
 		else if( amAlive )  					// store only live cells
 			memento.markAsAlive( upperLeft );
-		else if( hasPassed )					// store only marked cells
+		if( hasPassed )					// store only marked cells
 			memento.markAsPassed( upperLeft );
 
 		return false;
