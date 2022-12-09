@@ -147,6 +147,8 @@ public interface Cell
 
 	boolean isActive(int row, int col);
 
+	boolean isHasPassed(int row, int col);
+
 	/** The DUMMY Singleton represents a permanently dead (thus stable)
 	 * 	cell. It's used for the edges of the grid. It's a singleton.
 	 * 	The Dummy class is private, but it is accessed through
@@ -192,6 +194,11 @@ public interface Cell
 		@Override
 		public boolean isActive(int row, int col) {
 			return true;
+		}
+
+		@Override
+		public boolean isHasPassed(int row, int col) {
+			return false;
 		}
 
 		public void makeActive(int row, int col) {
