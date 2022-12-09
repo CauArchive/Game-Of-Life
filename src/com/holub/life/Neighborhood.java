@@ -16,6 +16,7 @@ import com.holub.life.Cell;
 import com.holub.life.Clock;
 import com.holub.life.Direction;
 import com.holub.life.Storable;
+import com.holub.visitor.CellVisitor;
 
 /***
  * A group of {@link Cell} objects. Cells are grouped into neighborhoods
@@ -425,6 +426,13 @@ public final class Neighborhood implements Cell
 												  pixelsPerCell );
 		return grid[0][0].getPixelsPerResident(subcell);
 	};
+
+	public void accept(CellVisitor visitor){
+		for(Cell[] row : grid)
+			for(Cell subcell : row)
+				subcell.accept(visitor);
+		visitor.visit(this);
+	}
 
 	public boolean isAlive()
 	{	return true;
