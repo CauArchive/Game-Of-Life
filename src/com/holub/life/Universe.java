@@ -30,6 +30,7 @@ import com.holub.visitor.CellVisitor;
  */
 
 public class Universe extends JPanel
+
 {	private 		final Cell  	outermostCell;
 
 	public Cell getOutermostCell(){
@@ -38,6 +39,7 @@ public class Universe extends JPanel
 
 	private static Point cur, after;
 	//private static	final Universe 	theInstance = new Universe();
+
 	private CellPattern cellPattern;
 
 	/** The default height and width of a Neighborhood in cells.
@@ -116,45 +118,7 @@ public class Universe extends JPanel
 		// in the current implementation causes the program to fail
 		// miserably if the overall size of the grid is too big to fit
 		// on the screen.
-
-		outermostCell = new Neighborhood
-						(	DEFAULT_GRID_SIZE,
-							new Neighborhood
-							(	DEFAULT_GRID_SIZE,
-								new Resident()
-							)
-						);
-		cellPattern = new SingleCellPattern(outermostCell);
-
-		final Dimension PREFERRED_SIZE =
-						new Dimension
-						(  outermostCell.widthInCells() * DEFAULT_CELL_SIZE,
-						   outermostCell.widthInCells() * DEFAULT_CELL_SIZE
-						);
-
-		addComponentListener
-		(	new ComponentAdapter()
-			{	public void componentResized(ComponentEvent e)
-				{
-					// Make sure that the cells fit evenly into the
-					// total grid size so that each cell will be the
-					// same size. For example, in a 64x64 grid, the
-					// total size must be an even multiple of 63.
-
-					Rectangle bounds = getBounds();
-					bounds.height /= outermostCell.widthInCells();
-					bounds.height *= outermostCell.widthInCells();
-					bounds.width  =  bounds.height;
-					setBounds( bounds );
-				}
-			}
-		);
-
-		setBackground	( Color.white	 );
-		setPreferredSize( PREFERRED_SIZE );
-		setMaximumSize	( PREFERRED_SIZE );
-		setMinimumSize	( PREFERRED_SIZE );
-		setOpaque		( true			 );
+		setGridSize(DEFAULT_GRID_SIZE,DEFAULT_CELL_SIZE);
 
 		addMouseListener					//{=Universe.mouse}
 		(	new MouseAdapter()
@@ -270,6 +234,36 @@ public class Universe extends JPanel
 			}
 		);
 
+
+		MenuSite.addLine
+		(	this, "Resize", "change grid size to 8",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					setGridSize(8,8);
+				}
+			}
+		);
+
+		MenuSite.addLine
+		(	this, "Resize", "change grid size to 10",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					setGridSize(10, 10);
+				}
+			}
+		);
+
+		MenuSite.addLine
+		(	this, "Resize", "change grid size to 12",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					setGridSize(12, 12);
+				}
+			}
+		);
 	}
 
 	/** Singleton Accessor. The Universe object itself is manufactured
@@ -373,5 +367,49 @@ public class Universe extends JPanel
 
 	private void setClickPattern(CellPattern cellPattern){
 		this.cellPattern = cellPattern;
+	}
+
+	private void setGridSize(int gridSize, int cellSize){
+		outermostCell = new Neighborhood
+						(	gridSize,
+							new Neighborhood
+							(	gridSize,
+								new Resident()
+							)
+						);
+		cellPattern = new SingleCellPattern(outermostCell);
+
+		/** width, height 여유 줘야 정상적으로 resize 됨*/
+		final Dimension PREFERRED_SIZE =
+						new Dimension
+						(  outermostCell.widthInCells() * cellSize + 5,
+						   outermostCell.widthInCells() * cellSize + 5
+						);
+
+		addComponentListener
+		(	new ComponentAdapter()
+			{	public void componentResized(ComponentEvent e)
+				{
+					// Make sure that the cells fit evenly into the
+					// total grid size so that each cell will be the
+					// same size. For example, in a 64x64 grid, the
+					// total size must be an even multiple of 63.
+
+					Rectangle bounds = getBounds();
+					bounds.height /= outermostCell.widthInCells();
+					bounds.height *= outermostCell.widthInCells();
+					bounds.width  =  bounds.height;
+					setBounds( bounds );
+				}
+			}
+		);
+
+		setBackground	( Color.white	 );
+		setPreferredSize( PREFERRED_SIZE );
+		setMaximumSize	( PREFERRED_SIZE );
+		setMinimumSize	( PREFERRED_SIZE );
+		setOpaque		( true			 );
+		revalidate();
+		repaint();
 	}
 }
