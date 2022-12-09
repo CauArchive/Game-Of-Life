@@ -465,6 +465,8 @@ public final class Neighborhood implements Cell
 		grid[row][col].makeActive(row, col);
 	}
 
+	public boolean isHasPassed(int row, int col){ return grid[row][col].isHasPassed(row, col);}
+
 	/** Cause subcells to add an annotation to the indicated
 	 *  memento if they happen to be alive.
 	 */

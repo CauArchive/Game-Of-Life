@@ -60,8 +60,8 @@ public final class Resident implements Cell
 		if( southwest.isAlive()) ++neighbors;
 
 		willBeAlive = (neighbors==3 || (amAlive && neighbors==2));
-		if(!hasPassed)
-			hasPassed = amAlive;
+		//if(!hasPassed)
+		//	hasPassed = amAlive;
 		return !isStable();
 	}
 
@@ -82,6 +82,8 @@ public final class Resident implements Cell
 
 	public boolean transition()
 	{	boolean changed = isStable();
+		if(!hasPassed)
+			hasPassed = amAlive;
 		amAlive = willBeAlive;
 		return changed;
 	}
@@ -124,7 +126,6 @@ public final class Resident implements Cell
 	public boolean isAlive()		{return amAlive;			    }
 	public Cell    create()			{return new Resident();			}
 	public int 	   widthInCells()	{return 1;}
-	public boolean isHasPassed() {return hasPassed;}
 
 	public Direction isDisruptiveTo()
 	{	return isStable() ? Direction.NONE : Direction.ALL ;
@@ -157,6 +158,10 @@ public final class Resident implements Cell
 	public void makeActive(int row, int col){
 		amAlive = true;
 	}
+
+	@Override
+	public boolean isHasPassed(int row, int col) {return hasPassed;}
+
 
 
 	/** Mementos must be created by Neighborhood objects. Throw an
