@@ -462,7 +462,7 @@ public final class Neighborhood implements Cell
 	}
 
 	public void makeActive(int row, int col){
-		amActive = true;
+		grid[row][col].makeActive(row, col);
 	}
 
 	/** Cause subcells to add an annotation to the indicated
