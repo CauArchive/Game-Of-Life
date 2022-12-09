@@ -11,6 +11,7 @@ import com.holub.life.Storable;
 import com.holub.life.Direction;
 import com.holub.life.Neighborhood;
 import com.holub.life.Universe;
+import com.holub.visitor.CellVisitor;
 
 /*** ****************************************************************
  * The Resident class implements a single cell---a "resident" of a
@@ -109,14 +110,22 @@ public final class Resident implements Cell
 		g.dispose();
 	}
 
-	public void userClicked(Point here, Rectangle surface)
-	{	amAlive = !amAlive;
+	public void userClicked(Point here, Rectangle surface){
+		this.reverse();
+	}
+
+	public void reverse(){
+		amAlive = !amAlive;
 	}
 
 	public int getPixelsPerResident(Rectangle surface){
 		int pixelsPerCell = surface.width;
 		return pixelsPerCell;
 	};
+
+	public void accept(CellVisitor visitor){
+		visitor.visit(this);
+	}
 
 	public void	   clear()			{amAlive = willBeAlive = hasPassed = false; }
 	public boolean isAlive()		{return amAlive;			    }

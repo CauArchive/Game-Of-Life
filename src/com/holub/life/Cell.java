@@ -2,6 +2,7 @@ package com.holub.life;
 import java.awt.*;
 
 import com.holub.life.Storable;
+import com.holub.visitor.CellVisitor;
 import org.w3c.dom.css.Rect;
 
 /***
@@ -67,6 +68,11 @@ public interface Cell
 	 * @return
 	 */
 	public int getPixelsPerResident(Rectangle surface);
+
+	/**
+	 * 셀을 반전시키는 visitor에 대한 accept
+	 */
+	public void accept(CellVisitor visitor);
 
 	/** Return true if this cell or any subcells are alive.
 	 */
@@ -159,6 +165,7 @@ public interface Cell
 
 		public void	userClicked(Point h, Rectangle s				){}
 		public int getPixelsPerResident(Rectangle s) {return 0;}
+		public void accept(CellVisitor visitor) {}
 		public void redraw 		(Graphics g, Rectangle here,
 												 boolean drawAll	){}
 

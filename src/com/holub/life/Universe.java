@@ -15,6 +15,8 @@ import com.holub.life.Storable;
 import com.holub.life.Clock;
 import com.holub.life.Neighborhood;
 import com.holub.life.Resident;
+import com.holub.visitor.CellReverseVisitor;
+import com.holub.visitor.CellVisitor;
 
 /**
  * The Universe is a mediator that sits between the Swing
@@ -110,6 +112,17 @@ public class Universe extends JPanel
 			new ActionListener()
 			{	public void actionPerformed(ActionEvent e)
 				{	outermostCell.clear();
+					repaint();
+				}
+			}
+		);
+
+		MenuSite.addLine( this, "Grid", "Reverse",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					CellVisitor visitor = new CellReverseVisitor();
+					outermostCell.accept(visitor);
 					repaint();
 				}
 			}
