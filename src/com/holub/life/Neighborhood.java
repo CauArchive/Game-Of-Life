@@ -419,6 +419,13 @@ public final class Neighborhood implements Cell
 		rememberThatCellAtEdgeChangedState(row, column);
 	}
 
+	public int getPixelsPerResident(Rectangle surface){
+		int pixelsPerCell = surface.width / gridSize ;
+		Rectangle subcell = new Rectangle(	0, 0, pixelsPerCell,
+												  pixelsPerCell );
+		return grid[0][0].getPixelsPerResident(subcell);
+	};
+
 	public boolean isAlive()
 	{	return true;
 	}

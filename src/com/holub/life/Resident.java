@@ -113,6 +113,11 @@ public final class Resident implements Cell
 	{	amAlive = !amAlive;
 	}
 
+	public int getPixelsPerResident(Rectangle surface){
+		int pixelsPerCell = surface.width;
+		return pixelsPerCell;
+	};
+
 	public void	   clear()			{amAlive = willBeAlive = hasPassed = false; }
 	public boolean isAlive()		{return amAlive;			    }
 	public Cell    create()			{return new Resident();			}
