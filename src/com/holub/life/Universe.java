@@ -15,6 +15,7 @@ import com.holub.life.Storable;
 import com.holub.life.Clock;
 import com.holub.life.Neighborhood;
 import com.holub.life.Resident;
+import com.holub.visitor.CellPrintVisitor;
 import com.holub.visitor.CellReverseVisitor;
 import com.holub.visitor.CellVisitor;
 
@@ -225,6 +226,22 @@ public class Universe extends JPanel
 			{	public void actionPerformed(ActionEvent e)
 				{
 					setGridSize(12, 12);
+				}
+			}
+		);
+
+		MenuSite.addLine( this, "Print", "Print Grid to output.txt file",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					CellPrintVisitor visitor = new CellPrintVisitor();
+					outermostCell.accept(visitor);
+					try {
+						visitor.setPrintWriter(new PrintWriter(new FileWriter("output.txt")));
+					}catch (Exception exception){
+						exception.printStackTrace();
+					}
+					visitor.print(outermostCell.getGrid().length);
 				}
 			}
 		);
