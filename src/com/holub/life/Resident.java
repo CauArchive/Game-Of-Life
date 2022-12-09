@@ -1,6 +1,8 @@
 package com.holub.life;
 
 import java.awt.*;
+import java.util.Collection;
+import java.util.LinkedList;
 import javax.swing.*;
 import com.holub.ui.Colors;	// Contains constants specifying various
 							// colors not defined in java.awt.Color.
@@ -22,9 +24,14 @@ public final class Resident implements Cell
 	private static final Color BORDER_COLOR = Colors.DARK_YELLOW;
 	private static final Color LIVE_COLOR 	= Color.RED;
 	private static final Color DEAD_COLOR   = Colors.LIGHT_YELLOW;
+	// Color for History
+	private static final Color HISTORY_COLOR = Colors.MEDIUM_ORANGE;
 
 	private boolean amAlive 	= false;
 	private boolean willBeAlive	= false;
+	// History 상태 (자리 지나갔는지)
+
+	private boolean hasPassed = false;
 
 	private boolean isStable(){return amAlive == willBeAlive; }
 
@@ -59,6 +66,8 @@ public final class Resident implements Cell
 		if( southwest.isAlive()) ++neighbors;
 
 		willBeAlive = (neighbors==3 || (amAlive && neighbors==2));
+		if(!hasPassed)
+			hasPassed = amAlive;
 		return !isStable();
 	}
 
@@ -85,7 +94,9 @@ public final class Resident implements Cell
 
 	public void redraw(Graphics g, Rectangle here, boolean drawAll)
     {   g = g.create();
-		g.setColor(amAlive ? LIVE_COLOR : DEAD_COLOR );
+		g.setColor(hasPassed ? HISTORY_COLOR : DEAD_COLOR);
+		g.fillRect(here.x+1, here.y+1, here.width-1, here.height-1);
+		g.setColor(amAlive ? LIVE_COLOR : (hasPassed ? HISTORY_COLOR : DEAD_COLOR) );
 		g.fillRect(here.x+1, here.y+1, here.width-1, here.height-1);
 
 		// Doesn't draw a line on the far right and bottom of the
@@ -102,10 +113,11 @@ public final class Resident implements Cell
 	{	amAlive = !amAlive;
 	}
 
-	public void	   clear()			{amAlive = willBeAlive = false; }
+	public void	   clear()			{amAlive = willBeAlive = hasPassed = false; }
 	public boolean isAlive()		{return amAlive;			    }
 	public Cell    create()			{return new Resident();			}
 	public int 	   widthInCells()	{return 1;}
+	public boolean isHasPassed() {return hasPassed;}
 
 	public Direction isDisruptiveTo()
 	{	return isStable() ? Direction.NONE : Direction.ALL ;
@@ -120,6 +132,7 @@ public final class Resident implements Cell
 		}
 		else if( amAlive )  					// store only live cells
 			memento.markAsAlive( upperLeft );
+
 
 		return false;
 	}

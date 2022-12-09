@@ -99,11 +99,12 @@ public interface Cell
 		 */
 		void markAsAlive	(Point location);
 
+
 		/** On restoration of a cell from a memento, indicate that
 		 *  a cell is alive.
 		 */
 		boolean isAlive	(Point location);
-	}
+			}
 
 	/**  This method is used internally to save or restore the state
 	 *   of a cell from a memento.
