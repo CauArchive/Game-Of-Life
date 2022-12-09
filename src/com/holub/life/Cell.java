@@ -2,6 +2,7 @@ package com.holub.life;
 import java.awt.*;
 
 import com.holub.life.Storable;
+import org.w3c.dom.css.Rect;
 
 /***
  * This interface is the basic unit that comprises a life board.
@@ -59,6 +60,13 @@ public interface Cell
 	 */
 
 	void userClicked(Point here, Rectangle surface);
+
+	/**
+	 * 최소 단위 Cell의 pixel 수를 리턴함.
+	 * @param surface
+	 * @return
+	 */
+	public int getPixelsPerResident(Rectangle surface);
 
 	/** Return true if this cell or any subcells are alive.
 	 */
@@ -150,6 +158,7 @@ public interface Cell
 		public boolean	 transition()		{return false;			  }
 
 		public void	userClicked(Point h, Rectangle s				){}
+		public int getPixelsPerResident(Rectangle s) {return 0;}
 		public void redraw 		(Graphics g, Rectangle here,
 												 boolean drawAll	){}
 

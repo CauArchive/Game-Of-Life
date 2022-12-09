@@ -6,6 +6,10 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
+import com.holub.command.BoatCellPattern;
+import com.holub.command.CellPattern;
+import com.holub.command.GliderCellPattern;
+import com.holub.command.SingleCellPattern;
 import com.holub.io.Files;
 import com.holub.ui.MenuSite;
 
@@ -29,6 +33,7 @@ import com.holub.life.Resident;
 public class Universe extends JPanel
 {	private 		final Cell  	outermostCell;
 	private static	final Universe 	theInstance = new Universe();
+	private CellPattern cellPattern;
 
 	/** The default height and width of a Neighborhood in cells.
 	 *  If it's too big, you'll run too slowly because
@@ -60,6 +65,7 @@ public class Universe extends JPanel
 								new Resident()
 							)
 						);
+		cellPattern = new SingleCellPattern(outermostCell);
 
 		final Dimension PREFERRED_SIZE =
 						new Dimension
@@ -97,7 +103,7 @@ public class Universe extends JPanel
 				{	Rectangle bounds = getBounds();
 					bounds.x = 0;
 					bounds.y = 0;
-					outermostCell.userClicked(e.getPoint(),bounds);
+					cellPattern.executePattern(e.getPoint(), bounds);
 					repaint();
 				}
 			}
@@ -153,6 +159,37 @@ public class Universe extends JPanel
 				}
 			}
 		);
+
+		MenuSite.addLine
+		(	this, "Patterns", "single",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					cellPattern = new SingleCellPattern(outermostCell);
+				}
+			}
+		);
+
+		MenuSite.addLine
+		(	this, "Patterns", "Boat",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					cellPattern = new BoatCellPattern(outermostCell);
+				}
+			}
+		);
+		
+		MenuSite.addLine
+		(	this, "Patterns", "Glider",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					cellPattern = new GliderCellPattern(outermostCell);
+				}
+			}
+		);
+
 	}
 
 	/** Singleton Accessor. The Universe object itself is manufactured
@@ -252,5 +289,9 @@ public class Universe extends JPanel
 				}
 			}
 		);
+	}
+
+	private void setClickPattern(CellPattern cellPattern){
+		this.cellPattern = cellPattern;
 	}
 }
