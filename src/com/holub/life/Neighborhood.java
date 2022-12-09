@@ -452,6 +452,19 @@ public final class Neighborhood implements Cell
 		amActive = false;
 	}
 
+	@Override
+	public Cell[][] getGrid() {
+		return grid;
+	}
+
+	public boolean isActive(int row, int col){
+		return grid[row][col].isActive(row, col);
+	}
+
+	public void makeActive(int row, int col){
+		amActive = true;
+	}
+
 	/** Cause subcells to add an annotation to the indicated
 	 *  memento if they happen to be alive.
 	 */
