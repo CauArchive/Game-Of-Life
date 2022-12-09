@@ -207,4 +207,7 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# program output
+output.txt
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij,macos,windows,linux
