@@ -31,7 +31,7 @@ import com.holub.visitor.CellVisitor;
 
 public class Universe extends JPanel
 
-{	private 		final Cell  	outermostCell;
+{	private static Cell outermostCell;
 
 	public Cell getOutermostCell(){
 		return outermostCell;
@@ -58,7 +58,8 @@ public class Universe extends JPanel
 
 	// The constructor is private so that the universe can be created
 	// only by an outer-class method [Neighborhood.createUniverse()].
-	public Universe(int x) {    // Create the nested Cells that comprise the "universe." A bug
+	public Universe(int x) {
+		// Create the nested Cells that comprise the "universe." A bug
 		// in the current implementation causes the program to fail
 		// miserably if the overall size of the grid is too big to fit
 		// on the screen.
