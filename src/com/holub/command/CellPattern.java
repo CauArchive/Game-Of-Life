@@ -21,7 +21,7 @@ public abstract class CellPattern {
         setDeltaIndex();
         for (int [] delta :deltaIndex) {
             int pixelsPerCell = ((Neighborhood)outermostCell).getPixelsPerResident(surface);
-            Point nextPoint = new Point(startPoint.x + delta[0] * pixelsPerCell, startPoint.y + delta[1] * pixelsPerCell);
+            Point nextPoint = new Point(startPoint.x + delta[1] * pixelsPerCell, startPoint.y + delta[0] * pixelsPerCell);
             if (surface.height > nextPoint.y && surface.width > nextPoint.x)
                 outermostCell.userClicked(nextPoint,surface);
         }

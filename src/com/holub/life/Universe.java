@@ -6,10 +6,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-import com.holub.command.BoatCellPattern;
-import com.holub.command.CellPattern;
-import com.holub.command.GliderCellPattern;
-import com.holub.command.SingleCellPattern;
+import com.holub.command.*;
 import com.holub.io.Files;
 import com.holub.ui.MenuSite;
 
@@ -179,13 +176,23 @@ public class Universe extends JPanel
 				}
 			}
 		);
-		
+
 		MenuSite.addLine
 		(	this, "Patterns", "Glider",
 			new ActionListener()
 			{	public void actionPerformed(ActionEvent e)
 				{
 					cellPattern = new GliderCellPattern(outermostCell);
+				}
+			}
+		);
+
+		MenuSite.addLine
+		(	this, "Patterns", "Hammerhead",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					cellPattern = new HammerHeadCellPattern(outermostCell);
 				}
 			}
 		);
