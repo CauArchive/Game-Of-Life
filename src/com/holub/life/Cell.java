@@ -133,6 +133,8 @@ public interface Cell
 	/** Possible value for the "load" argument to transfer() */
 	public static boolean LOAD = true;
 
+	public void makeActive(int row, int col);
+
 	/** This method is used by container of the outermost cell.
 	 *  It is not used internally. It need be implemented only by
 	 *  whatever class defines the outermost cell in the universe.
@@ -140,6 +142,10 @@ public interface Cell
 	 *  UnsupportedOperationException when this method is called.
 	 */
 	Storable createMemento();
+
+	Cell[][] getGrid();
+
+	boolean isActive(int row, int col);
 
 	/** The DUMMY Singleton represents a permanently dead (thus stable)
 	 * 	cell. It's used for the edges of the grid. It's a singleton.
@@ -176,6 +182,20 @@ public interface Cell
 		public Storable createMemento()
 		{	throw new UnsupportedOperationException(
 						"Cannot create memento of dummy block");
+		}
+
+		@Override
+		public Cell[][] getGrid() {
+			return new Cell[0][];
+		}
+
+		@Override
+		public boolean isActive(int row, int col) {
+			return true;
+		}
+
+		public void makeActive(int row, int col) {
+
 		}
 	};
 }

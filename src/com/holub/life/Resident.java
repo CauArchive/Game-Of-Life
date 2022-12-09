@@ -1,16 +1,9 @@
 package com.holub.life;
 
 import java.awt.*;
-import java.util.Collection;
-import java.util.LinkedList;
-import javax.swing.*;
+
 import com.holub.ui.Colors;	// Contains constants specifying various
 							// colors not defined in java.awt.Color.
-import com.holub.life.Cell;
-import com.holub.life.Storable;
-import com.holub.life.Direction;
-import com.holub.life.Neighborhood;
-import com.holub.life.Universe;
 import com.holub.visitor.CellVisitor;
 
 /*** ****************************************************************
@@ -150,6 +143,21 @@ public final class Resident implements Cell
 
 		return false;
 	}
+
+	@Override
+	public Cell[][] getGrid() {
+		return getGrid();
+	}
+	@Override
+	public boolean isActive(int row, int col){
+		return amAlive;
+	}
+
+	@Override
+	public void makeActive(int row, int col){
+		amAlive = true;
+	}
+
 
 	/** Mementos must be created by Neighborhood objects. Throw an
 	 *  exception if anybody tries to do it here.
