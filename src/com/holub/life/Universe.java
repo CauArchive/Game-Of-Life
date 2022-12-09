@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.event.*;
 
 import com.holub.command.*;
+import com.holub.inputstream.GridMatrixStreamAdapter;
 import com.holub.io.Files;
 import com.holub.ui.MenuSite;
 
@@ -18,6 +19,7 @@ import com.holub.life.Resident;
 import com.holub.visitor.CellPrintVisitor;
 import com.holub.visitor.CellReverseVisitor;
 import com.holub.visitor.CellVisitor;
+import com.holub.visitor.GridMatrixConvertVisitor;
 
 /**
  * The Universe is a mediator that sits between the Swing
@@ -242,6 +244,32 @@ public class Universe extends JPanel
 						exception.printStackTrace();
 					}
 					visitor.print(outermostCell.getGrid().length);
+				}
+			}
+		);
+
+		MenuSite.addLine( this, "Print", "print stream_output.txt using stream adaptor",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					GridMatrixConvertVisitor gridMatrixConvertVisitor = new GridMatrixConvertVisitor();
+					outermostCell.accept(gridMatrixConvertVisitor);
+
+					boolean[][] gridMatrix =  gridMatrixConvertVisitor.getGridMatrix();
+
+					try {
+						int c;
+						File file = new File("stream_output.txt");
+						InputStream in = new GridMatrixStreamAdapter(gridMatrix);
+						PrintStream out = new PrintStream(new FileOutputStream(file), true, "UTF-8");
+						while ((c = in.read()) >= 0){
+							char cc = (char) c;
+							out.print((char)c);
+						}
+						out.close();
+					} catch (Exception exception){
+						exception.printStackTrace();
+					}
 				}
 			}
 		);

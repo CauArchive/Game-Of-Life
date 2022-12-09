@@ -209,5 +209,6 @@ $RECYCLE.BIN/
 
 # program output
 output.txt
+stream_output.txt
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij,macos,windows,linux

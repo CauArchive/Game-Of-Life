@@ -27,10 +27,12 @@ public class CellPrintVisitor implements CellVisitor {
 
     public void visit(Resident resident){
         if (resident.isAlive()){
-            residentInfo.add('■');
+            //residentInfo.add('■');
+            residentInfo.add('\u25A0'); // \u25A0 = ■
         }
         else {
-            residentInfo.add('□');
+            //residentInfo.add('□');
+            residentInfo.add('\u25A1'); // \u25A1 = □
         }
     }
     public void visit(Neighborhood neighborhood){
