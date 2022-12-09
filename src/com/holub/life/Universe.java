@@ -6,10 +6,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 
-import com.holub.command.BoatCellPattern;
-import com.holub.command.CellPattern;
-import com.holub.command.GliderCellPattern;
-import com.holub.command.SingleCellPattern;
+import com.holub.command.*;
 import com.holub.io.Files;
 import com.holub.ui.MenuSite;
 
@@ -18,6 +15,8 @@ import com.holub.life.Storable;
 import com.holub.life.Clock;
 import com.holub.life.Neighborhood;
 import com.holub.life.Resident;
+import com.holub.visitor.CellReverseVisitor;
+import com.holub.visitor.CellVisitor;
 
 /**
  * The Universe is a mediator that sits between the Swing
@@ -118,6 +117,17 @@ public class Universe extends JPanel
 			}
 		);
 
+		MenuSite.addLine( this, "Grid", "Reverse",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					CellVisitor visitor = new CellReverseVisitor();
+					outermostCell.accept(visitor);
+					repaint();
+				}
+			}
+		);
+
 		MenuSite.addLine			// {=Universe.load.setup}
 		(	this, "Grid", "Load",
 			new ActionListener()
@@ -179,13 +189,23 @@ public class Universe extends JPanel
 				}
 			}
 		);
-		
+
 		MenuSite.addLine
 		(	this, "Patterns", "Glider",
 			new ActionListener()
 			{	public void actionPerformed(ActionEvent e)
 				{
 					cellPattern = new GliderCellPattern(outermostCell);
+				}
+			}
+		);
+
+		MenuSite.addLine
+		(	this, "Patterns", "Hammerhead",
+			new ActionListener()
+			{	public void actionPerformed(ActionEvent e)
+				{
+					cellPattern = new HammerHeadCellPattern(outermostCell);
 				}
 			}
 		);
