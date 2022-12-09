@@ -31,13 +31,12 @@ import com.holub.visitor.CellVisitor;
 
 public class Universe extends JPanel
 
-{	private 		final Cell  	outermostCell;
+{	private static Cell outermostCell;
 
 	public Cell getOutermostCell(){
 		return outermostCell;
 	}
 
-	private static Point cur, after;
 	//private static	final Universe 	theInstance = new Universe();
 
 	private CellPattern cellPattern;
@@ -58,48 +57,13 @@ public class Universe extends JPanel
 
 	// The constructor is private so that the universe can be created
 	// only by an outer-class method [Neighborhood.createUniverse()].
-	public Universe(int x) {    // Create the nested Cells that comprise the "universe." A bug
+	// 테스트용 Universe 코드
+	public Universe(int x) {
+		// Create the nested Cells that comprise the "universe." A bug
 		// in the current implementation causes the program to fail
 		// miserably if the overall size of the grid is too big to fit
 		// on the screen.
-
-		outermostCell = new Neighborhood
-				(DEFAULT_GRID_SIZE,
-						new Neighborhood
-								(DEFAULT_GRID_SIZE,
-										new Resident()
-								)
-				);
-		cellPattern = new SingleCellPattern(outermostCell);
-
-		final Dimension PREFERRED_SIZE =
-				new Dimension
-						(outermostCell.widthInCells() * DEFAULT_CELL_SIZE,
-								outermostCell.widthInCells() * DEFAULT_CELL_SIZE
-						);
-
-		addComponentListener
-				(new ComponentAdapter() {
-					 public void componentResized(ComponentEvent e) {
-						 // Make sure that the cells fit evenly into the
-						 // total grid size so that each cell will be the
-						 // same size. For example, in a 64x64 grid, the
-						 // total size must be an even multiple of 63.
-
-						 Rectangle bounds = getBounds();
-						 bounds.height /= outermostCell.widthInCells();
-						 bounds.height *= outermostCell.widthInCells();
-						 bounds.width = bounds.height;
-						 setBounds(bounds);
-					 }
-				 }
-				);
-
-		setBackground(Color.white);
-		setPreferredSize(PREFERRED_SIZE);
-		setMaximumSize(PREFERRED_SIZE);
-		setMinimumSize(PREFERRED_SIZE);
-		setOpaque(true);
+		setGridSize(DEFAULT_GRID_SIZE,DEFAULT_CELL_SIZE);
 
 		addMouseListener                    //{=Universe.mouse}
 				(new MouseAdapter() {
