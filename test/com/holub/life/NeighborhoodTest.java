@@ -100,13 +100,14 @@ class NeighborhoodTest {
             for( int column = 0; column < 8; ++column )
                 assertFalse(grid[row][column].isAlive());
     }
+    // 특정 셀 살았는지 확인하는 테스트
     @Test
     void checkSellIsAlive() {
         grid[2][2] = aliveCell;
-        assertFalse(grid[2][2].isAlive());
+        assertTrue(grid[2][2].isAlive());
 
     }
-
+    // 특정 셀 죽었는지 확인하는 테스트
     @Test
     void checkCellIsDead(){
         grid[2][2].clear();
