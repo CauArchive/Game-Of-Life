@@ -14,6 +14,7 @@ import com.holub.life.Storable;
 import com.holub.life.Clock;
 import com.holub.life.Neighborhood;
 import com.holub.life.Resident;
+import com.holub.ui.StatusBar;
 
 /**
  * The Universe is a mediator that sits between the Swing
@@ -27,7 +28,9 @@ import com.holub.life.Resident;
  */
 
 public class Universe extends JPanel
-{	private 		final Cell  	outermostCell;
+{
+	public static int score = 0;
+	private 		final Cell  	outermostCell;
 	private static	final Universe 	theInstance = new Universe();
 
 	/** The default height and width of a Neighborhood in cells.
@@ -106,7 +109,9 @@ public class Universe extends JPanel
 		MenuSite.addLine( this, "Grid", "Clear",
 			new ActionListener()
 			{	public void actionPerformed(ActionEvent e)
-				{	outermostCell.clear();
+				{
+					resetGame();
+					outermostCell.clear();
 					repaint();
 				}
 			}
@@ -116,7 +121,9 @@ public class Universe extends JPanel
 		(	this, "Grid", "Load",
 			new ActionListener()
 			{	public void actionPerformed(ActionEvent e)
-				{	doLoad();
+				{
+					resetGame();
+					doLoad();
 				}
 			}
 		);
@@ -125,7 +132,9 @@ public class Universe extends JPanel
 		(	this, "Grid", "Store",
 			new ActionListener()
 			{	public void actionPerformed(ActionEvent e)
-				{	doStore();
+				{
+					resetGame();
+					doStore();
 				}
 			}
 		);
@@ -142,7 +151,11 @@ public class Universe extends JPanel
 		Clock.instance().addClockListener //{=Universe.clock.subscribe}
 		(	new Clock.Listener()
 			{	public void tick()
-				{	if( outermostCell.figureNextState
+				{
+					// update score
+					updateScore(++Universe.score);
+
+					if( outermostCell.figureNextState
 						   ( Cell.DUMMY,Cell.DUMMY,Cell.DUMMY,Cell.DUMMY,
 							 Cell.DUMMY,Cell.DUMMY,Cell.DUMMY,Cell.DUMMY
 						   )
@@ -161,6 +174,17 @@ public class Universe extends JPanel
 
 	public static Universe instance()
 	{	return theInstance;
+	}
+
+	public static void resetGame()
+	{
+		updateScore(0);
+		Clock.instance().startTicking(0);
+	}
+
+	public static void updateScore(int score){
+		Universe.score = score;
+		StatusBar.updateTurnStatus(score);
 	}
 
 	private void doLoad()
@@ -236,7 +260,8 @@ public class Universe extends JPanel
 	{	SwingUtilities.invokeLater
 		(	new Runnable()
 			{	public void run()
-				{	Graphics g = getGraphics();
+				{
+					Graphics g = getGraphics();
 					if( g == null )		// Universe not displayable
 						return;
 					try

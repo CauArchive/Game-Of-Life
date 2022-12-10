@@ -3,6 +3,7 @@ package com.holub.life;
 import java.awt.*;
 import javax.swing.*;
 import com.holub.ui.MenuSite;
+import com.holub.ui.StatusBar;
 
 /*******************************************************************
  * An implemenation of Conway's Game of Life.
@@ -11,7 +12,7 @@ import com.holub.ui.MenuSite;
  */
 
 public final class Life extends JFrame
-{	
+{
 	private static JComponent universe;
 
 	public static void main( String[] arguments )
@@ -29,6 +30,8 @@ public final class Life extends JFrame
 		setDefaultCloseOperation	( EXIT_ON_CLOSE 		);
 		getContentPane().setLayout	( new BorderLayout()	);
 		getContentPane().add( Universe.instance(), BorderLayout.CENTER); //{=life.java.install}
+
+		StatusBar.establish( this );
 
 		pack();
 		setVisible( true );
