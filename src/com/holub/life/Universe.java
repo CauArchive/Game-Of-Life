@@ -20,6 +20,7 @@ import com.holub.visitor.CellPrintVisitor;
 import com.holub.visitor.CellReverseVisitor;
 import com.holub.visitor.CellVisitor;
 import com.holub.visitor.GridMatrixConvertVisitor;
+import com.holub.ui.StatusBar;
 
 /**
  * The Universe is a mediator that sits between the Swing
@@ -33,9 +34,9 @@ import com.holub.visitor.GridMatrixConvertVisitor;
  */
 
 public class Universe extends JPanel
-
-{	private static Cell outermostCell;
-
+{
+	public static int score = 0;
+	private static Cell  	outermostCell;
 	public Cell getOutermostCell(){
 		return outermostCell;
 	}
@@ -102,7 +103,9 @@ public class Universe extends JPanel
 		MenuSite.addLine( this, "Grid", "Clear",
 			new ActionListener()
 			{	public void actionPerformed(ActionEvent e)
-				{	outermostCell.clear();
+				{
+					resetGame();
+					outermostCell.clear();
 					repaint();
 				}
 			}
@@ -123,7 +126,9 @@ public class Universe extends JPanel
 		(	this, "Grid", "Load",
 			new ActionListener()
 			{	public void actionPerformed(ActionEvent e)
-				{	doLoad();
+				{
+					resetGame();
+					doLoad();
 				}
 			}
 		);
@@ -132,7 +137,9 @@ public class Universe extends JPanel
 		(	this, "Grid", "Store",
 			new ActionListener()
 			{	public void actionPerformed(ActionEvent e)
-				{	doStore();
+				{
+					resetGame();
+					doStore();
 				}
 			}
 		);
@@ -149,7 +156,11 @@ public class Universe extends JPanel
 		Clock.instance().addClockListener //{=Universe.clock.subscribe}
 		(	new Clock.Listener()
 			{	public void tick()
-				{	if( outermostCell.figureNextState
+				{
+					// update score
+					updateScore(++Universe.score);
+
+					if( outermostCell.figureNextState
 						   ( Cell.DUMMY,Cell.DUMMY,Cell.DUMMY,Cell.DUMMY,
 							 Cell.DUMMY,Cell.DUMMY,Cell.DUMMY,Cell.DUMMY
 						   )
@@ -283,6 +294,18 @@ public class Universe extends JPanel
 	{	return new Universe();
 	}
 
+	public static void resetGame()
+	{
+		updateScore(0);
+		StatusBar.updatePlayStatus(0);
+		Clock.instance().startTicking(0);
+	}
+
+	public static void updateScore(int score){
+		Universe.score = score;
+		StatusBar.updateTurnStatus(score);
+	}
+
 	private void doLoad()
 	{	try
 		{
@@ -356,7 +379,8 @@ public class Universe extends JPanel
 	{	SwingUtilities.invokeLater
 		(	new Runnable()
 			{	public void run()
-				{	Graphics g = getGraphics();
+				{
+					Graphics g = getGraphics();
 					if( g == null )		// Universe not displayable
 						return;
 					try
