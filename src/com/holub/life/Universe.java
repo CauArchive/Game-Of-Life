@@ -179,6 +179,7 @@ public class Universe extends JPanel
 	public static void resetGame()
 	{
 		updateScore(0);
+		StatusBar.updatePlayStatus(0);
 		Clock.instance().startTicking(0);
 	}
 

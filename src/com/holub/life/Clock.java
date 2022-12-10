@@ -7,6 +7,7 @@ import java.util.*;
 import java.util.Timer;		// overrides java.awt.timer
 import com.holub.ui.MenuSite;
 import com.holub.tools.Publisher;
+import com.holub.ui.StatusBar;
 
 /***
  * The <code>Clock</code> class handles the timing of gameboard
@@ -78,7 +79,7 @@ public class Clock
 	}
 
 	/** Create the menu that controls the clock speed and
-	 *  put it onto the menu site. 
+	 *  put it onto the menu site.
 	 */
 	private void createMenus()
 	{
@@ -92,9 +93,16 @@ public class Clock
 					String name = ((JMenuItem)e.getSource()).getName();
 					char toDo = name.charAt(0);
 
-					if( toDo=='T' )
-						tick();				      // single tick
+					if( toDo=='T' ){
+						tick();
+						StatusBar.updatePlayStatus(0);
+					}
 					else
+						if(toDo == 'A' || toDo == 'S' || toDo == 'M' || toDo == 'F'){
+							StatusBar.updatePlayStatus(1);
+						}else{
+							StatusBar.updatePlayStatus(2);
+						}
 						startTicking(   toDo=='A' ? 500:	  // agonizing
 										toDo=='S' ? 150:	  // slow
 										toDo=='M' ? 70 :	  // medium
